@@ -75,7 +75,7 @@ func main() {
 	r := gin.Default()
 
 	if port == "" {
-		port = "8000"
+		port = "9999"
 	}
 
 	// the jwt middleware
