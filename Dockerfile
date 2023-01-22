@@ -19,7 +19,7 @@ RUN \
 
 COPY --from=builder /api-app /api-app
 
-ENV PORT=":80"
+ENV PORT="80"
 
 EXPOSE 9999
 
