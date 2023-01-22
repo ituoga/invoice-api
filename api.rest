@@ -3,6 +3,7 @@
 
 # @name login
 POST {{baseUrl}}/login HTTP/1.1
+Origin: http://localhost:9999
 Content-Type: application/x-www-form-urlencoded
 
 username=admin&password=admin
@@ -11,6 +12,7 @@ username=admin&password=admin
 
 @authToken = {{login.response.body.token}}
 GET {{baseUrl}}/api/v1/clients HTTP/1.1
+Origin: http://localhost:9999
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -18,5 +20,15 @@ Authorization: Bearer {{authToken}}
 
 @authToken = {{login.response.body.token}}
 GET {{baseUrl}}/api/v1/clients?code=1234 HTTP/1.1
+Origin: http://localhost:9999
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+###
+
+@authToken = {{login.response.body.token}}
+GET {{baseUrl}}/not-found HTTP/1.1
+Origin: http://localhost:9999
 Content-Type: application/json
 Authorization: Bearer {{authToken}}

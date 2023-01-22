@@ -20,7 +20,7 @@ RUN \
 COPY --from=builder /api-app /api-app
 
 ENV PORT="80"
-
+ENV GIN_MODE "release"
 EXPOSE 9999
 
 ENTRYPOINT ["/api-app"]

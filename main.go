@@ -70,6 +70,27 @@ type User struct {
 	LastName  string
 }
 
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Headers", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH")
+		/*
+		   c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		   c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		   c.Writer.Header().Set("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
+		*/
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	r := gin.Default()
@@ -161,6 +182,8 @@ func main() {
 		log.Fatal("authMiddleware.MiddlewareInit() Error:" + errInit.Error())
 	}
 
+	r.Use(CORSMiddleware())
+
 	r.POST("/login", authMiddleware.LoginHandler)
 
 	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
@@ -170,6 +193,7 @@ func main() {
 	})
 
 	auth := r.Group("/auth")
+
 	// Refresh time can be longer than token timeout
 	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
 
@@ -179,6 +203,7 @@ func main() {
 	}
 
 	rr := r.Group("/api/v1")
+
 	rr.Use(authMiddleware.MiddlewareFunc())
 	{
 		rr.GET("/clients", clientsHandler)
