@@ -25,7 +25,7 @@ type Client struct {
 	Address string `json:"address"`
 }
 
-func helloHandler(c *gin.Context) {
+func clientsHandler(c *gin.Context) {
 
 	var clients []Client
 
@@ -53,7 +53,7 @@ func helloHandler(c *gin.Context) {
 	c.JSON(200, tmp)
 }
 
-func clientsHandler(c *gin.Context) {
+func helloHandler(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
 	user, _ := c.Get(identityKey)
 	c.JSON(200, gin.H{
