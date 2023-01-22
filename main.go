@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
@@ -17,7 +18,42 @@ type login struct {
 
 var identityKey = "id"
 
+type Client struct {
+	Name    string `json:"name"`
+	Code    string `json:"code"`
+	VAT     string `json:"vat"`
+	Address string `json:"address"`
+}
+
 func helloHandler(c *gin.Context) {
+
+	var clients []Client
+
+	clients = append(clients, Client{Name: "Client 1", Code: "123456789", VAT: "123456789", Address: "Address 1"})
+	clients = append(clients, Client{Name: "Client 2", Code: "987654321", VAT: "987654321", Address: "Address 2"})
+	clients = append(clients, Client{Name: "Client 3", Code: "123456789", VAT: "123456789", Address: "Address 3"})
+	clients = append(clients, Client{Name: "Client 4", Code: "987654321", VAT: "987654321", Address: "Address 4"})
+	clients = append(clients, Client{Name: "Client 5", Code: "123556789", VAT: "123456789", Address: "Address 5"})
+	clients = append(clients, Client{Name: "Client 6", Code: "987654321", VAT: "987654321", Address: "Address 6"})
+	clients = append(clients, Client{Name: "Client 7", Code: "123656789", VAT: "123456789", Address: "Address 7"})
+	clients = append(clients, Client{Name: "Client 8", Code: "987654321", VAT: "987654321", Address: "Address 8"})
+
+	var tmp []Client
+
+	if c.Query("code") != "" {
+		for _, client := range clients {
+			if strings.HasPrefix(client.Code, c.Query("code")) {
+				tmp = append(tmp, client)
+			}
+		}
+	} else {
+		tmp = clients
+	}
+
+	c.JSON(200, tmp)
+}
+
+func clientsHandler(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
 	user, _ := c.Get(identityKey)
 	c.JSON(200, gin.H{
@@ -142,10 +178,10 @@ func main() {
 		auth.GET("/hello", helloHandler)
 	}
 
-	rr := r.Group("/")
+	rr := r.Group("/api/v1")
 	rr.Use(authMiddleware.MiddlewareFunc())
 	{
-		rr.GET("/hello", helloHandler)
+		rr.GET("/clients", clientsHandler)
 	}
 
 	if err := http.ListenAndServe(":"+port, r); err != nil {
