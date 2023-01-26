@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 app = "mz-invoice-api"
+=======
+# fly.toml file generated for randominvoiceapp on 2023-01-26T18:04:11+02:00
+
+app = "randominvoiceapp"
+>>>>>>> e2df93d (fly config)
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -6,12 +12,19 @@ processes = []
 [env]
 
 [experimental]
+<<<<<<< HEAD
   allowed_public_ports = []
+=======
+>>>>>>> e2df93d (fly config)
   auto_rollback = true
 
 [[services]]
   http_checks = []
+<<<<<<< HEAD
   internal_port = 80
+=======
+  internal_port = 8080
+>>>>>>> e2df93d (fly config)
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
