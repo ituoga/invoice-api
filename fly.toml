@@ -1,11 +1,13 @@
-app = "mz-invoice-api"
+# fly.toml file generated for randominvoiceapp on 2023-01-26T18:17:35+02:00
+
+app = "randominvoiceapp"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[env]
 
 [experimental]
-  allowed_public_ports = []
   auto_rollback = true
 
 [[services]]
