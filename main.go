@@ -29,10 +29,10 @@ func clientsHandler(c *gin.Context) {
 
 	var clients []Client
 
-	clients = append(clients, Client{Name: "Client 1", Code: "123456789", VAT: "123456789", Address: "Address 1"})
-	clients = append(clients, Client{Name: "Client 2", Code: "987654321", VAT: "987654321", Address: "Address 2"})
-	clients = append(clients, Client{Name: "Client 3", Code: "123456789", VAT: "123456789", Address: "Address 3"})
-	clients = append(clients, Client{Name: "Client 4", Code: "987654321", VAT: "987654321", Address: "Address 4"})
+	clients = append(clients, Client{Name: "vienas 1", Code: "123456789", VAT: "123456789", Address: "Address 1"})
+	clients = append(clients, Client{Name: "du 2", Code: "987654321", VAT: "987654321", Address: "Address 2"})
+	clients = append(clients, Client{Name: "du 3", Code: "123456789", VAT: "123456789", Address: "Address 3"})
+	clients = append(clients, Client{Name: "vienas 4", Code: "987654321", VAT: "987654321", Address: "Address 4"})
 	clients = append(clients, Client{Name: "Client 5", Code: "123556789", VAT: "123456789", Address: "Address 5"})
 	clients = append(clients, Client{Name: "Client 6", Code: "987654321", VAT: "987654321", Address: "Address 6"})
 	clients = append(clients, Client{Name: "Client 7", Code: "123656789", VAT: "123456789", Address: "Address 7"})
@@ -43,6 +43,12 @@ func clientsHandler(c *gin.Context) {
 	if c.Query("code") != "" {
 		for _, client := range clients {
 			if strings.HasPrefix(client.Code, c.Query("code")) {
+				tmp = append(tmp, client)
+			}
+		}
+	} else if c.Query("name") != "" {
+		for _, client := range clients {
+			if strings.HasPrefix(client.Name, c.Query("name")) {
 				tmp = append(tmp, client)
 			}
 		}
